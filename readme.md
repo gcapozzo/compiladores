@@ -10,3 +10,5 @@ Hay 3 archivos *.java: **AccionSemantica**, **Celda** y **State**.
 
     - En el método _main_ de **State** tengo un string cortito que luego lo recorro con un while mientras la condicion sea verdadera (se vuelve falsa al leer el fin de archivo). 
     Siempre que se llegue al esatdo final y no sea el fin de archivo, vuelvo al estado 0 (la variable _state=0_) y no incremento la variable _i_, que funciona de iterador del string, así a la siguiente iteración vuelvo a leer el mismo caracter. 
+
+    - Pueden testearlo sólo ejecutando el _main_ de **States.java**s
