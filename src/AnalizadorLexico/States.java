@@ -1,6 +1,7 @@
-package states;
+package AnalizadorLexico;
 
-import states.acciones_semanticas.*;
+import AnalizadorLexico.Utils.SymbolTable;
+import AnalizadorLexico.acciones_semanticas.*;
 
 public class States {
     /*
@@ -10,9 +11,12 @@ public class States {
      * - COL13= ; COL20= blanc -1 = estado final
      */
 
-
+    private int actualState = 0;
+    private final int FINAL_STATE = -1;
+    private AnalizadorLexico aLexico;
+    private SymbolTable tSymbol;
+    private boolean endFile = false;
     //CREACION DE CELDAS PARA LA MATRIZ
-
     //FILA DEL ESTADO 0
     private static Celda c1 = new Celda(1); /* ADD AS1*/ //SE REPITE EN LAS POS 0-0, 0-2, 0-4,
     private static Celda c2 = new Celda(2); /* ADD AS1*/ //SE REPITE EN LAS POS 0-1
@@ -100,9 +104,24 @@ public class States {
             /*16*/       { c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36 },
             /*17*/       { c39, c39, c38, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39 } };
 
-    public int getStates(int actualState, char c, StringBuilder buffer) {
-        int column;
+    public States(AnalizadorLexico aLexico, SymbolTable tSymbol){
+        this.aLexico = aLexico;
+        this.tSymbol = tSymbol;
+    }
+    public boolean isInFinalState(){return actualState == FINAL_STATE;}
+    public void changeEndFile(){
+        this.endFile = !this.endFile;
+    }
+    public void goToLastState(){actualState = FINAL_STATE;}
 
+    public void reset(){actualState = 0;}
+
+    public void setTokenToLexic(int token, String lexema){
+        aLexico.setTokenGenerado(token, lexema);
+    }
+
+    public int goToNextState(char c) {
+        int column;
         if (Character.isLetter(c) && c != 'S') {
             column = 0;
         } else {
@@ -220,36 +239,10 @@ public class States {
 
         matrix[actualState][column].executeAS(buffer, c);
         */
+        matrix[actualState][column].executeAS(c);
         return matrix[actualState][column].SiguienteEstado();
 
     }
 
-    public static void main(String[] args) {
-
-        States states = new States();
-
-        String identificador = "num = 1525$";
-
-        int size = identificador.length();
-        int state = 0;
-        int i = 0;
-        boolean condition = true;
-        StringBuilder buffer = new StringBuilder();
-
-        while (condition) {
-            System.out.println("Estado actual: " + state + " con el caracter: " + identificador.charAt(i));
-            state = states.getStates(state, identificador.charAt(i), buffer);
-            if (state != -1) {
-                i++;
-            } else if (state == -2) {
-                condition = false;
-            } else {
-                System.out.println("Se leyo todo el token correctamente");
-                state = 0;
-                buffer = new StringBuilder(); //se q creo un nuevo objeto y dejo el otro en memoria, pero no se si hay alguna forma de limpiar el StringBuilder
-            }
-        }
-
-    }
 
 }

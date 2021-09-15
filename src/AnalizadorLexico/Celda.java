@@ -1,6 +1,6 @@
-package states;
+package AnalizadorLexico;
 
-import states.acciones_semanticas.AccionSemantica;
+import AnalizadorLexico.acciones_semanticas.AccionSemantica;
 
 public class Celda {
 
@@ -18,7 +18,7 @@ public class Celda {
         return siguienteEstado;
     }
 
-    public void executeAS(String buffer, char c) {
-        as.execute(buffer, c);
+    public void executeAS(char c) {
+        as.execute(c);
     }
 }
