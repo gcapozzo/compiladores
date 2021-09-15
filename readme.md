@@ -1,4 +1,4 @@
-#COMPILADOR VERSION ALPHA 0.0.0.0.0.0.1
+# COMPILADOR VERSION ALPHA 0.0.0.0.0.0.1
 
 Hay 3 archivos *.java: **AccionSemantica**, **Celda** y **State**.
 
