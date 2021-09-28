@@ -1,0 +1,13 @@
+PROGRAM %programa%;
+STRING a,b;
+BEGIN
+    PRINT(%hola esto esta bien escrito%);
+    a := % hola +
+            + mundo % ;
+
+    PRINT(% hola +
+          + mundo %);
+
+    b := % hola +
+     como te va%;
+END;

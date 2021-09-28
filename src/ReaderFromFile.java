@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public final class ReaderFromFile {
-
+    private static final int ENTER_ASCII = 13;
 
     public static ArrayList<Character> reader(String path) throws Exception {
 
@@ -22,9 +22,12 @@ public final class ReaderFromFile {
         ArrayList<Integer> intVal = new ArrayList<>();
         int i;
 
+
         while((i=fr.read()) != -1){
-            caracteres.add((char) i);
+            if( i != ENTER_ASCII)
+                caracteres.add((char) i);
         }
+
         caracteres.add((char) 36); //36 es el codigo ascii del $
         return caracteres;
     }

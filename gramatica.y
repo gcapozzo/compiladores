@@ -21,10 +21,11 @@ import Utils.ErrorLog;
 %%
 
 programa : nombre_programa bloque_declarativas bloque_ejecutables_programa {System.err.println("Se reconocio el programa");}
+	 | nombre_programa bloque_ejecutables_programa {System.err.println("Se reconocio el programa");}
 ;
 
 nombre_programa : PROGRAM CONST_STR ';' { this.generated("nombre de programa"); }
-                | PROGRAM ID ';' { this.yyerror("El nombre del progrma debe ser un STRING no un ID"); }
+                | PROGRAM ID ';' { this.yyerror("El nombre del programa debe ser un STRING no un ID"); }
 ;
 
 bloque_declarativas : sentencia_declarativa { this.generated("bloque declarativo"); }
@@ -43,12 +44,14 @@ encabezado_funcion : tipo FUNC '(' tipo ')' { this.generated("encabezado de func
 
 lista_variables : ID { this.generated("lista de variables"); }
 		| lista_variables',' ID { this.generated("lista de variables"); }
+		| lista_variables',' {yyerror("Se esperaba un ID");}
 ;
 
 parametro : tipo ID { this.generated("parametro"); }
 ;
 
 bloque_ejecutables_programa : BEGIN sentencias_ejecutables END ';' { this.generated("bloque ejecutable"); } /* creo que el ; no van en los bloques de ejecutables*/
+			     | BEGIN END ';'
 ;
 
 bloque_ejecutables_funcion : BEGIN sentencias_ejecutables retorno post_condicion END ';' /* creo que el ; no van en los bloques de ejecutables*/
@@ -141,20 +144,21 @@ post_condicion : POST ':' '(' condicion ')' ',' CONST_STR ';' { this.generated("
 
 ;
 
-expresion_aritmetica : expresion_aritmetica '+' termino { $$.ival = $1.ival + $3.ival; }
-                        | expresion_aritmetica '-' termino { $$.ival = $1.ival - $3.ival; }
+expresion_aritmetica : expresion_aritmetica '+' termino
+                        | expresion_aritmetica '-' termino
                         | termino
 ;
 
-termino : termino '*' factor { $$.ival = $1.ival * $3.ival; }
-        | termino '/' factor { $$.ival = $1.ival / $3.ival; }
+termino : termino '*' factor
+        | termino '/' factor
         | factor
 ;
 
 factor : ID
-        | CONST_SINGLE
-        | CONST_INT
-        | '-' factor { changeSigned($2.ival); }
+        | CONST_SINGLE { this.isInRange($1.sval,false);}
+        | CONST_INT { this.isInRange($1.sval,false);}
+        | '-' CONST_SINGLE {this.isInRange($2.sval,true);}
+        | '-' CONST_INT {this.isInRange($2.sval,true);}
         | invocacion_funcion
 ;
 
@@ -180,8 +184,30 @@ factor : ID
         errors.addError(msg);
     }
 
-    private void changeSigned(int factor){
-        //cambiar signo de la TS del factor
+
+    private void checkNegative(double number){
+        if( !(number >= GeneratorFloat.MIN_NEGATIVE && number <= GeneratorFloat.MAX_NEGATIVE) )
+            yyerror("Single fuera de rango negativo");
+    }
+    private void checkPositiv(double number){
+        if( !( (number >= GeneratorFloat.MIN_POSITIV && number <= GeneratorFloat.MAX_POSITIV) || number == GeneratorFloat.CERO) )
+            yyerror("Single fuera de rango positivo");
+    }
+    private void isInRange(String number, boolean negative){
+    	if(negative)
+    	   number = "-" + number;
+        if(number.contains(".")){
+            double numberd = Double.parseDouble(number);
+            if(!negative)
+                checkPositiv(numberd);
+            else
+                checkNegative(numberd);
+	    }
+        else{
+           int numberi = Integer.parseInt(number);
+           if( !(numberi >= GeneratorInteger.MIN && numberi <= GeneratorInteger.MAX) )
+            yyerror("Entero fuera de rango");
+            }
     }
 
     private void print(String text) {

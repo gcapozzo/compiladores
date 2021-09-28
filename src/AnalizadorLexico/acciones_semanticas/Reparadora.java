@@ -12,6 +12,7 @@ public class Reparadora extends AccionSemantica{
     }
     @Override
     public void execute(char c) {
+
         cFuente.addWarning("Se ha intentado leer un + y no se ha encontrado por lo tanto se ha añadido");
     }
 

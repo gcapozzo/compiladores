@@ -1,5 +1,7 @@
 package AnalizadorLexico.acciones_semanticas;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 public abstract class AccionSemantica {
     private static final StringBuilder sTemporal = new StringBuilder();
 

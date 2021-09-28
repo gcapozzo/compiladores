@@ -19,14 +19,20 @@ public class ErrorLog {
         this.errors.add("ERROR -> Line " + this.cFuente.getCurrentLine() + ": " + text);
     }
     public void printWarning(){
+        if(warnings.isEmpty())
+            System.out.println("No se han encontrado warnings");
+        else
         for (String warning :warnings){
             System.out.println(warning);
         }
     }
     public void printErrors(){
-        for (String error :errors){
-            System.out.println(error);
-        }
+        if(errors.isEmpty())
+            System.out.println("No se han encontrado errores");
+        else
+            for(String error :errors){
+                System.out.println(error);
+            }
     }
 
 }

@@ -53,22 +53,15 @@ public class States {
     private Celda c21;
     private Celda c23;
     private Celda c24;
-    private Celda c25;
     private Celda c26;
     private Celda c27;
     private Celda c28;
     private Celda c29;
     private Celda c30;
-    private Celda c31;
-    private Celda c32;
-    private Celda c311;
+
     private Celda c33;
     private Celda c34;
-    private Celda c35;
-    private Celda c37;
-    private Celda c36;
-    private Celda c38;
-    private Celda c39;
+
     private Celda cFinal;
     private final int MAX_FILAS = 17;
     private final int MAX_COL = 24;
@@ -117,28 +110,21 @@ public class States {
         c40 = new Celda(-1, AS6);
         c17 = new Celda(3, AS2);
         c18 = new Celda(2, AS2);
-        c19 = new Celda(3, AS2);
+        c19 = new Celda(5, AS2);
         c20 = new Celda(5, AS2bis);
         c21 = new Celda(-1, AS4);
         c23 = new Celda(17, AS2);
-        c24 = new Celda(-1, AS3);
-        c25 = new Celda(7, AS2);
-        c26 = new Celda(-1, AS13);
+        c24 = new Celda(10,AS15);
+        c26 = new Celda(0, AS13);
         c27 = new Celda(7, AS2);
         c28 = new Celda(8, AS2);
         c29 = new Celda(9, AS2);
         c30 = new Celda(-1, AS21);
-        c31 = new Celda(8, AS2);
-        c311 = new Celda(-1,AS21);
-        c32 = new Celda(9, AS2);
+
         c33 = new Celda(10, AS15);
-        c34 = new Celda(-1, AS20);
-        c35 = new Celda(8, AS2);
-        c37 = new Celda(-1, AS22);
-        c36 = new Celda(-1, AS3);
-        c38 = new Celda(17, AS2);
-        c39 = new Celda(-1, AS4);
-        cFinal = new Celda(-2, AS99);
+        c34 = new Celda(8, AS20);
+
+        cFinal = new Celda(-1, AS99);
 
     }
     private Celda[][] loadMatrix() {
@@ -146,21 +132,21 @@ public class States {
                 /*0 */       {c1, c2, c1, c3, c1, c4, c4, c5, c4, c4, c4, c4, c6, c4, c7, c8, c9, c10, c11, c12, c12, c12, c13, c14, cFinal},
                 /*1 */       {c15, c15, c15, c16, c15, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16},
                 /*2 */       {c40, c18, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c17, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40},
-                /*3 */       {c21, c18, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
-                /*4 */       {c21, c18, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
-                /*5 */       {c21, c21, c21, c21, c21, c23, c23, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
-                /*6 */       {c24, c24, c24, c24, c24, c24, c24, c25, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24},
+                /*3 */       {c40, c17, c21, c21, c20, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
+                /*4 */       {c21, c17, c21, c21, c20, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
+                /*5 */       {c21, c19, c21, c21, c21, c23, c23, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
+                /*6 */       {c16, c16, c16, c16, c16, c16, c16, c27, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16},
                 /*7 */       {c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c26, c27, c27, c27},
                 /*8 */       {c28, c28, c28, c28, c28, c29, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c30, c30, c28, c28},
-                /*9 */       {c31, c31, c31, c31, c31, c32, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c33, c311, c31, c31},
-                /*10*/       {c34, c34, c34, c34, c34, c35, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34},
-                /*11*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36},
-                /*12*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36},
-                /*13*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36},
-                /*14*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36},
-                /*15*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36},
-                /*16*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36},
-                /*17*/       {c39, c39, c38, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39}
+                /*9 */       {c28, c28, c28, c28, c28, c29, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c33, c30, c28, c28},
+                /*10*/       {c34, c34, c34, c34, c34, c28, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c24, c24, c34, c34, c34, c34},
+                /*11*/       {c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c4, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16},
+                /*12*/       {c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c4, c4, c16, c16, c16, c16, c16, c16, c16, c16, c16},
+                /*13*/       {c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c4, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16},
+                /*14*/       {c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c4, c16, c16, c16, c16, c16, c16, c16},
+                /*15*/       {c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c4, c16, c16, c16, c16, c16, c16},
+                /*16*/       {c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c4, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16},
+                /*17*/       {c21, c23, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21}
         };
         return aux;
 
@@ -171,12 +157,12 @@ public class States {
 
     public void goToLastState(){
         actualState = FINAL_STATE;
-        AS3.execute('$');
-        cFuente.increaseIndex();
+        setTokenToLexic(0,"$");
     }
 
     public void reset(){
         actualState = 0;
+        AS13.execute(' ');
     }
 
     public void setTokenToLexic(int token, String lexema){

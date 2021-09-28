@@ -1,0 +1,13 @@
+PROGRAM %programa%;
+INT a1,a2,a3;
+SINGLE b1;
+SINGLE b2;
+SINGLE _b4, b_5;
+BEGIN
+    a1 := -500000;
+    a2 := 50000000;
+    b1 := -3.40282347S+40;
+    b2 := 3.40282347S+40;
+    _b4 := 1.17549435S-40;
+    b_5 := -1.17549435S-40;
+END;

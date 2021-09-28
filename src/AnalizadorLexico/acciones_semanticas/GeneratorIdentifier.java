@@ -21,7 +21,7 @@ public class GeneratorIdentifier extends AccionSemantica{
     public void execute(char c) {
         cFuente.decreaseIndex();
         if(truncString(LIMITE_STRING)){
-            cFuente.addWarning("Se ha truncado el identificador porque supera los " + LIMITE_STRING + " caracteres");
+            cFuente.addWarning("Se ha truncado el identificador porque supera los " + LIMITE_STRING + " caracteres" );
         }
 
         if(!tSymbol.isInTable(this.getCurrentBuffer())){

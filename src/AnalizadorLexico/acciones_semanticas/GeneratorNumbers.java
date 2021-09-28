@@ -19,16 +19,9 @@ public abstract class GeneratorNumbers extends AccionSemantica{
     @Override
     public void execute(char c) {
         cFuente.decreaseIndex();
-        if(isInRange(getCurrentBuffer())){
-            if(!tSymbol.isInTable(getCurrentBuffer()))
-                addNewTokenByType();
-            stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),this.getCurrentBuffer());
-        }
-        else{
-            cFuente.addError("El numero esta fuera de rango");
-            tSymbol.addToken("0", Parser.YYERRCODE);
-            stateMatrix.setTokenToLexic(tSymbol.getTokenID("0"),"0");
-        }
+        if(!tSymbol.isInTable(getCurrentBuffer()))
+            addNewTokenByType();
+        stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),this.getCurrentBuffer());
 
     }
     public abstract boolean isInRange(String sNumber);

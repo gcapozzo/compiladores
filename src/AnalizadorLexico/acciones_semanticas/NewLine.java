@@ -10,11 +10,12 @@ public class NewLine extends  AccionSemantica{
 
     @Override
     public void execute(char c) {
+        
         switch (c){
-            case '\n': {
+            case '\n':case '\r':{//\r es el enter para el salto de linea
                 cFuente.increaseLine();
             }
-            case '\t': case ' ': break;
+            case '\t': case ' ': case '\b': break;
             default: {
                 cFuente.addWarning("Se ha encontrado y omitido el caracter " + c);
                 break;

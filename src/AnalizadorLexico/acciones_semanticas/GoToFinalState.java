@@ -14,5 +14,6 @@ public class GoToFinalState extends AccionSemantica{
     @Override
     public void execute(char c) {
         matrix.goToLastState();
+        matrix.setTokenToLexic(0,"$");
     }
 }

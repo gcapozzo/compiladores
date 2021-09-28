@@ -7,11 +7,11 @@ import AnalizadorSintactico.Parser;
 
 public class GeneratorFloat extends GeneratorNumbers {
     //Accion Semantica 4: Reconociendo flotantes
-    private final float MIN_POSITIV = 1.17549435e-38f;
-    private final float MAX_POSITIV = 3.40282347e+38f;
-    private final float MIN_NEGATIVE = -3.40282347e+38f;
-    private final float MAX_NEGATIVE = -1.17549435e-38f;
-    private final float CERO = 0.0f;
+    public final static double MIN_POSITIV = 1.17549435e-38d;
+    public final static double MAX_POSITIV = 3.40282347e+38d;
+    public final static double MIN_NEGATIVE = -3.40282347e+38d;
+    public final static double MAX_NEGATIVE = -1.17549435e-38d;
+    public final static double CERO = 0.0d;
 
     public GeneratorFloat(SymbolTable tSymbol, SourceCode cFuente, States matrix) {
         super(tSymbol, cFuente, matrix);
@@ -19,7 +19,7 @@ public class GeneratorFloat extends GeneratorNumbers {
 
     @Override
     public boolean isInRange(String sNumber) {
-        float fNumber = bufferToFloat(sNumber);
+        double fNumber = bufferToDouble(sNumber);
         //Por ahora como no entiende si es negativo o positivo, comparo solo con los positivos
         return ( (fNumber >= MIN_POSITIV && fNumber <= MAX_POSITIV ) || (fNumber == CERO));
 
@@ -31,9 +31,11 @@ public class GeneratorFloat extends GeneratorNumbers {
 
     }
 
-    private float bufferToFloat(String buffer){
-        String numberWithE = buffer.concat("f");
-        return Float.parseFloat(numberWithE);
+    private double bufferToDouble(String buffer) throws NumberFormatException {
+        if(buffer.charAt(buffer.length()-1) == 'e')
+            buffer = buffer.concat("1");
+        buffer = buffer.concat("d");
+        return Double.parseDouble(buffer);
     }
 
 

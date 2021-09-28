@@ -1,0 +1,8 @@
+PROGRAM %programa%;
+SINGLE a1234567891011121314151617;
+SINGLE abcdefghijklmnopqrstuv;
+INT a_b_c_d_e;
+INT _a_b_c_d_e;
+INT ABCDE;
+BEGIN
+END;
