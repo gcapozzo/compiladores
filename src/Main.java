@@ -24,9 +24,14 @@ public class Main {
         logs.setSourceCode(sourceCode);
         lexico = new AnalizadorLexico(sourceCode,symbolTable);
         parser = new Parser(lexico, logs);
-        while(sourceCode.getNextChar() != '$') {
+        while(!sourceCode.eof()) {
             parser.run();
         }
+        ArrayList<String> gen = lexico.getGenerado();
+        for (String s: gen)
+            System.out.println(s);
+        //guardar lo generado en un archivo
+        //guardar los errores en un archivo
 
     }
 

@@ -2,6 +2,8 @@ package AnalizadorLexico;
 
 import Utils.*;
 
+import java.util.ArrayList;
+
 
 public class AnalizadorLexico {
 
@@ -11,6 +13,7 @@ public class AnalizadorLexico {
     private int tokenObtenido;
     private String lexemaObtenido;
     private SymbolTable tSymbol;
+    private ArrayList<String> generado = new ArrayList<>();
 
 
     public AnalizadorLexico(SourceCode cfuente,SymbolTable tSymbol){
@@ -24,8 +27,8 @@ public class AnalizadorLexico {
     public void setTokenGenerado(int token, String lexema){
         this.tokenObtenido = token;
         this.lexemaObtenido = lexema;
-        System.out.println("Token: " + token);
-        System.out.println("Lexema: " + lexema);
+        //System.out.println("Token: " + token);
+        //System.out.println("Lexema: " + lexema);
     }
 
     public int generateToken(){
@@ -52,6 +55,12 @@ public class AnalizadorLexico {
     public int getTokenObtenido(){return this.tokenObtenido;}
 
     public void generated(String gen){
-        System.out.println("Se ha generado la siguiente regla: " + gen + ". En la linea: " + cFuente.getCurrentLine());
+        String g = "Se ha generado la siguiente regla: " + gen + ". En la linea: " + cFuente.getCurrentLine();
+        this.generado.add(g);
+        //System.err.println(g);
+    }
+
+    public ArrayList<String> getGenerado() {
+        return generado;
     }
 }

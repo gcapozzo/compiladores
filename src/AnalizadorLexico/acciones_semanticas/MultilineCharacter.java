@@ -24,6 +24,7 @@ public class MultilineCharacter extends AccionSemantica{
             case('%'): {
                 sTable.addToken(getCurrentBuffer(), Parser.CONST_STR);
                 matrix.setTokenToLexic(sTable.getTokenID(getCurrentBuffer()),getCurrentBuffer());
+                inicString();
                 break;
             }
             default:cFuente.addError("Error al generar un string, se esperaba un '%' o salto de linea");

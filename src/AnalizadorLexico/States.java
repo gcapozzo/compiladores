@@ -172,12 +172,11 @@ public class States {
     public void goToLastState(){
         actualState = FINAL_STATE;
         AS3.execute('$');
-
+        cFuente.increaseIndex();
     }
 
     public void reset(){
         actualState = 0;
-        AS13.execute('0');
     }
 
     public void setTokenToLexic(int token, String lexema){
@@ -289,14 +288,16 @@ public class States {
                     break;
             }
         }
-        System.out.println("Estados actuales: fil - col " + actualState +" "+ column);
-        System.out.println("Estoy leyendoe el caracter: " + c);
+        //System.out.println("Estados actuales: fil - col " + actualState +" "+ column);
+        //System.out.println("Estoy leyendoe el caracter: " + c);
+
+        if(actualState != FINAL_STATE){
+            matrix[actualState][column].executeAS(c);
+            actualState = matrix[actualState][column].SiguienteEstado();
+        }
 
 
-        matrix[actualState][column].executeAS(c);
-        actualState = matrix[actualState][column].SiguienteEstado();
-
-        System.out.println("Siguiente estado:" + actualState );
+        //System.out.println("Siguiente estado:" + actualState );
         return actualState;
 
     }

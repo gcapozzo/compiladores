@@ -1,5 +1,5 @@
 PROGRAM %hola%;
-STRING i;
+INT i;
 BEGIN
-i := %$dinero$%;
-END
+i := 15;
+END;
