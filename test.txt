@@ -1,0 +1,5 @@
+PROGRAM %hola%;
+STRING i;
+BEGIN
+i := %$dinero$%;
+END

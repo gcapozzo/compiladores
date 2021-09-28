@@ -1,7 +1,8 @@
 package AnalizadorLexico.acciones_semanticas;
-import AnalizadorLexico.Utils.SymbolTable;
-import AnalizadorLexico.Utils.SourceCode;
+import Utils.SymbolTable;
+import Utils.SourceCode;
 import AnalizadorLexico.States;
+import AnalizadorSintactico.Parser;
 
 public class GeneratorIdentifier extends AccionSemantica{
     //Accion Semantica 3: Obteniendo un identificador
@@ -19,21 +20,13 @@ public class GeneratorIdentifier extends AccionSemantica{
     @Override
     public void execute(char c) {
         cFuente.decreaseIndex();
-        truncString(LIMITE_STRING);
-        //INFORMAR WARNING POR RECORTAR STRING SI ES QUE RECORTE O NO LA RE PUTA Q TE PARIO
-        if(tSymbol.isInTable(this.getCurrentBuffer())){
-            if(tSymbol.isPR(this.getCurrentBuffer())){
-                stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),"");
-            }
-            else{
-                stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),
-                                            this.getCurrentBuffer());
-            }
-        }
-        else {
-            tSymbol.addToken(this.getCurrentBuffer(), tSymbol.CONST_ID);
-            stateMatrix.setTokenToLexic(tSymbol.CONST_ID, this.getCurrentBuffer());
+        if(truncString(LIMITE_STRING)){
+            cFuente.addWarning("Se ha truncado el identificador porque supera los " + LIMITE_STRING + " caracteres");
         }
 
+        if(!tSymbol.isInTable(this.getCurrentBuffer())){
+            tSymbol.addToken(this.getCurrentBuffer(), Parser.ID);
+        }
+        stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),this.getCurrentBuffer());
     }
 }

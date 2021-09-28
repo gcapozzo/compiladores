@@ -5,6 +5,7 @@ public class InicBuffer extends AccionSemantica{
     @Override
     public void execute(char c) {
         inicString();
-        concatenateChar(c);
+        if(c != '%')
+            concatenateChar(c);
     }
 }

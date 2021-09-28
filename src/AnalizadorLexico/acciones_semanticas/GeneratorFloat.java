@@ -1,8 +1,9 @@
 package AnalizadorLexico.acciones_semanticas;
 
 import AnalizadorLexico.States;
-import AnalizadorLexico.Utils.SourceCode;
-import AnalizadorLexico.Utils.SymbolTable;
+import Utils.SourceCode;
+import Utils.SymbolTable;
+import AnalizadorSintactico.Parser;
 
 public class GeneratorFloat extends GeneratorNumbers {
     //Accion Semantica 4: Reconociendo flotantes
@@ -12,9 +13,8 @@ public class GeneratorFloat extends GeneratorNumbers {
     private final float MAX_NEGATIVE = -1.17549435e-38f;
     private final float CERO = 0.0f;
 
-
-    public GeneratorFloat(SymbolTable tSymbol, SourceCode cFuente, States matrix){
-        super(tSymbol,cFuente,matrix);
+    public GeneratorFloat(SymbolTable tSymbol, SourceCode cFuente, States matrix) {
+        super(tSymbol, cFuente, matrix);
     }
 
     @Override
@@ -27,13 +27,11 @@ public class GeneratorFloat extends GeneratorNumbers {
 
     @Override
     public void addNewTokenByType() {
-        SymbolTable sTable = getTSymbol();
-        sTable.addToken(getCurrentBuffer(),sTable.CONST_FLOAT);
-        States matrix = getStateMatrix();
-        matrix.setTokenToLexic(sTable.CONST_FLOAT, getCurrentBuffer());
+        tSymbol.addToken(getCurrentBuffer(),Parser.CONST_SINGLE);
+
     }
 
-    public float bufferToFloat(String buffer){
+    private float bufferToFloat(String buffer){
         String numberWithE = buffer.concat("f");
         return Float.parseFloat(numberWithE);
     }

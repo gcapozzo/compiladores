@@ -1,15 +1,16 @@
 package AnalizadorLexico.acciones_semanticas;
 import AnalizadorLexico.States;
-import AnalizadorLexico.Utils.SourceCode;
-import AnalizadorLexico.Utils.SymbolTable;
+import Utils.SourceCode;
+import Utils.SymbolTable;
+import AnalizadorSintactico.Parser;
 
 public class GeneratorInteger extends GeneratorNumbers {
     //Accion Semantica 4: Reconociendo integers
     private final int MIN = -32768;
     private final int MAX = 32767;
 
-    public GeneratorInteger(SymbolTable tSymbol, SourceCode cFuente, States matrix){
-        super(tSymbol,cFuente,matrix);
+    public GeneratorInteger(SymbolTable tSymbol, SourceCode cFuente, States matrix) {
+        super(tSymbol, cFuente, matrix);
     }
 
     @Override
@@ -21,13 +22,11 @@ public class GeneratorInteger extends GeneratorNumbers {
 
     @Override
     public void addNewTokenByType() {
-        SymbolTable sTable = getTSymbol();
-        sTable.addToken(getCurrentBuffer(),sTable.CONST_INT);
-        States matrix = getStateMatrix();
-        matrix.setTokenToLexic(sTable.CONST_INT, getCurrentBuffer());
+        tSymbol.addToken(getCurrentBuffer(),Parser.CONST_INT);
+
     }
 
-    public int bufferToInteger(String sNumber){
+    private int bufferToInteger(String sNumber){
         return Integer.parseInt(sNumber);
     }
 

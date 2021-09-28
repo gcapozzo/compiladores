@@ -1,13 +1,14 @@
 package AnalizadorLexico.acciones_semanticas;
 
 import AnalizadorLexico.States;
-import AnalizadorLexico.Utils.SourceCode;
-import AnalizadorLexico.Utils.SymbolTable;
+import AnalizadorSintactico.Parser;
+import Utils.SourceCode;
+import Utils.SymbolTable;
 
 public abstract class GeneratorNumbers extends AccionSemantica{
-    private SymbolTable tSymbol;
+    protected SymbolTable tSymbol;
     private SourceCode cFuente;
-    private States stateMatrix;
+    protected States stateMatrix;
 
     public GeneratorNumbers(SymbolTable tSymbol, SourceCode cFuente, States matrix){
         this.tSymbol = tSymbol;
@@ -19,15 +20,16 @@ public abstract class GeneratorNumbers extends AccionSemantica{
     public void execute(char c) {
         cFuente.decreaseIndex();
         if(isInRange(getCurrentBuffer())){
-            if(tSymbol.isInTable(getCurrentBuffer()))
-                stateMatrix.setTokenToLexic(tSymbol.getTokenID(getCurrentBuffer()),getCurrentBuffer());
-            else {
+            if(!tSymbol.isInTable(getCurrentBuffer()))
                 addNewTokenByType();
-            }
+            stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),this.getCurrentBuffer());
         }
         else{
-            //informar que esta fuera de rango y solo dios sabe que hacer aca
+            cFuente.addError("El numero esta fuera de rango");
+            tSymbol.addToken("0", Parser.YYERRCODE);
+            stateMatrix.setTokenToLexic(tSymbol.getTokenID("0"),"0");
         }
+
     }
     public abstract boolean isInRange(String sNumber);
     public abstract void addNewTokenByType();

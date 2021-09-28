@@ -1,6 +1,6 @@
 package AnalizadorLexico;
 
-import AnalizadorLexico.Utils.SymbolTable;
+import Utils.*;
 import AnalizadorLexico.acciones_semanticas.*;
 
 public class States {
@@ -10,114 +10,178 @@ public class States {
      * COL23= : COL4= S COL11= , COL18= | COL24= $ COL5= + COL12= . COL19= tab COL6=
      * - COL13= ; COL20= blanc -1 = estado final
      */
-
     private int actualState = 0;
     private final int FINAL_STATE = -1;
     private AnalizadorLexico aLexico;
     private SymbolTable tSymbol;
-    private boolean endFile = false;
+    private SourceCode cFuente;
+
+    //Creacion de las AS
+    private AccionSemantica AS1;
+    private AccionSemantica AS2;
+    private AccionSemantica AS3;
+    private AccionSemantica AS4;
+    private AccionSemantica AS6;
+    private AccionSemantica AS2bis;
+    private AccionSemantica AS13;
+    private AccionSemantica AS15;
+    private AccionSemantica AS20;
+    private AccionSemantica AS21;
+    private AccionSemantica AS22;
+    private AccionSemantica AS99;
+
     //CREACION DE CELDAS PARA LA MATRIZ
-    //FILA DEL ESTADO 0
-    private static Celda c1 = new Celda(1); /* ADD AS1*/ //SE REPITE EN LAS POS 0-0, 0-2, 0-4,
-    private static Celda c2 = new Celda(2); /* ADD AS1*/ //SE REPITE EN LAS POS 0-1
-    private static Celda c3 = new Celda(0); /* ADD AS0*/ //SE REPITE EN LAS POS 0-3
-    private static Celda c4 = new Celda(-1); /* ADD AS0*/ //SE REPITE EN LAS POS 0-5, 0-6, 0-8, 0-9, 0-10, 0-11, 0-13, 0-24
-    private static Celda c5 = new Celda(6); /* ADD AS1*/ //SE REPITE EN LAS POS 0-7
-    private static Celda c6 = new Celda(4); /* ADD AS1*/ //SE REPITE EN LAS POS 0-12
-    private static Celda c7 = new Celda(13); /* ADD AS1*/ //SE REPITE EN LAS POS 0-14
-    private static Celda c8 = new Celda(11); /* ADD AS1*/ //SE REPITE EN LAS POS 0-15
-    private static Celda c9 = new Celda(12); /* ADD AS1*/ //SE REPITE EN LAS POS 0-16
-    private static Celda c10 = new Celda(14); /* ADD AS1*/ //SE REPITE EN LAS POS 0-17
-    private static Celda c11 = new Celda(15); /* ADD AS1*/ //SE REPITE EN LAS POS 0-18
-    private static Celda c12 = new Celda(0); /* ADD AS15*/ //SE REPITE EN LAS POS 0-19, 0-20, 0-21
-    private static Celda c13 = new Celda(8); /* ADD AS1*/ //SE REPITE EN LAS POS 0-22
-    private static Celda c14 = new Celda(16); /* ADD AS1*/ //SE REPITE EN LAS POS 0-23
+    private Celda c1, c2, c3;
+    private Celda c4;
+    private Celda c5;
+    private Celda c6;
+    private Celda c7;
+    private Celda c8;
+    private Celda c9;
+    private Celda c10;
+    private Celda c11;
+    private Celda c12;
+    private Celda c13;
+    private Celda c14;
+    private Celda c15;
+    private Celda c16;
+    private Celda c40;
+    private Celda c17;
+    private Celda c18;
+    private Celda c19;
+    private Celda c20;
+    private Celda c21;
+    private Celda c23;
+    private Celda c24;
+    private Celda c25;
+    private Celda c26;
+    private Celda c27;
+    private Celda c28;
+    private Celda c29;
+    private Celda c30;
+    private Celda c31;
+    private Celda c32;
+    private Celda c311;
+    private Celda c33;
+    private Celda c34;
+    private Celda c35;
+    private Celda c37;
+    private Celda c36;
+    private Celda c38;
+    private Celda c39;
+    private Celda cFinal;
+    private final int MAX_FILAS = 17;
+    private final int MAX_COL = 24;
+    private Celda[][] matrix ;
 
-    //FILA DEL ESTADO 1
-    private static Celda c15 = new Celda(1); /* ADD AS2*/ //SE REPITE EN LAS POS 1-0, 1-1, 1-2, 1-4
-    private static Celda c16 = new Celda(-1); /* ADD AS3*/ //SE REPITE EN LAS DEMAS POS
-
-    //FILA DEL ESTADO 2 Y 3
-    private static Celda c40 = new Celda(-1); /* ADD AS6*/ //SE REPITE EN TODAS LA POS MENOS 2-1, 3-2, 3-4
-    private static Celda c17 = new Celda(3); /* ADD AS7*/ //SE REPITE EN LAS POS 2-12
-    private static Celda c18 = new Celda(2); /* ADD AS2*/ //SE REPITE EN LAS POS 2-1
-    private static Celda c19 = new Celda(3); /* ADD AS2*/ //SE REPITE EN LAS POS 3-1, 4-1
-    private static Celda c20 = new Celda(5); /* ADD AS2*/ //SE REPITE EN LAS POS 3-4, 4-4
-
-    //FILA DE LOS ESATDOS 4 Y 5
-    private static Celda c21 = new Celda(-1); /* ADD AS4*/ //SE REPITE EN TODAS LA DE LA FILA 4 Y 5 MENOS EN 4-2, 4-4, 5-2, 5-5 Y 5-6
-    private static Celda c22 = new Celda(5); /* ADD AS2*/ //SE REPITE EN LAS POS 5-2
-    private static Celda c23 = new Celda(17); /* ADD AS2*/ //SE REPITE EN LAS POS 5-5 Y 5-6
-
-    //FILA DEL ESTADO 6
-    private static Celda c24 = new Celda(7); /* ADD AS3*/ //SE REPITE EN TODA LA FILA 6 MENOS EN 6-7
-    private static Celda c25 = new Celda(-1); /* ADD AS2*/ //SE REPITE EN LAS POS 6-7
-
-    //FILA DEL ESATDO 7
-    private static Celda c26 = new Celda(-1); /* ADD AS13*/ //SE REPITE EN LAS POS 7-21
-    private static Celda c27 = new Celda(7); /* ADD AS2*/ //SE REPITE EN TODA LA FILA 7 MENOS EN 7-21
-
-    //FILA DEL ESTADO 8
-    private static Celda c28 = new Celda(8); /* ADD AS17*/ //SE REPITE EN TODA LA FILA 8 MENOS 8-5, 8-21, 8-22
-    private static Celda c29 = new Celda(9); /* ADD AS17*/ //SE REPITE EN LAS POS 8-5
-    private static Celda c30 = new Celda(-1); /* ADD AS21*/ //SE REPITE EN LAS POS 8-21, 8-22
-
-    //FILA DEL ESATDO 9
-    private static Celda c31 = new Celda(8); /* ADD AS17*/ //SE REPITE EN TODA LA FILA 9 MENOS 9-5, 9-21
-    private static Celda c32 = new Celda(9); /* ADD AS17*/ //SE REPITE EN LAS POS 9-5
-    private static Celda c33 = new Celda(10); /* ADD AS19*/ //SE REPITE EN LAS POS 9-21
-
-    //FILA DEL ESTDO 10
-    private static Celda c34 = new Celda(-1); /* ADD AS2*/ //SE REPITE EN TODA LA FILA 10 MENOS 9-5
-    private static Celda c35 = new Celda(8); /* ADD AS17*/ //SE REPITE EN LAS POS 9-5
-
-    //FILA DEL ESTADO 11 AL 16
-    private static Celda c37 = new Celda(-1); /* ADD AS22*/ //SE REPITE EN LAS POS 11-14, 12-14, 12-15, 13-14, 14-17, 15-18, 16-14
-    private static Celda c36 = new Celda(-1); /* ADD AS3*/ //SE REPITE EN CADA FILA EN EL RESTO
-
-    //FILA DEL ESTADO 17
-    private static Celda c38 = new Celda(17); /* ADD AS2*/ //SE REPITE EN LAS POS 17-2
-    private static Celda c39 = new Celda(-1); /* ADD AS4*/ //SE REPITE EN TODA LA FILA 17 MENOS 17-2
-
-
-    //FIN DE ARCHIVO
-    private static Celda cFinal = new Celda(-2); /* ADD AS0??*/ //SOLO PARA CUANDO LEO EL $ ESTANDO EN EL ESATDO 0
-
-
-    public static final Celda[][] matrix = {
-            /*0 */       {  c1,  c2,  c1,  c3,  c1,  c4,  c4,  c5,  c4,  c4,  c4,  c4,  c6,  c4,  c7,  c8,  c9, c10, c11, c12, c12, c12, c13, c14,  cFinal },
-            /*1 */       { c15, c15, c15, c16, c15, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16 },
-            /*2 */       { c40, c18, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c17, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40 },
-            /*3 */       { c21, c18, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21 },
-            /*4 */       { c21, c18, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21 },
-            /*5 */       { c21, c22, c21, c21, c21, c23, c23, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21 },
-            /*6 */       { c24, c24, c24, c24, c24, c24, c24, c25, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24 },
-            /*7 */       { c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c26, c27, c27, c27 },
-            /*8 */       { c28, c28, c28, c28, c28, c29, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c30, c30, c28, c28 },
-            /*9 */       { c31, c31, c31, c31, c31, c32, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c33, c31, c31, c31 },
-            /*10*/       { c34, c34, c34, c34, c34, c35, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34 },
-            /*11*/       { c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36 },
-            /*12*/       { c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36 },
-            /*13*/       { c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36 },
-            /*14*/       { c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36 },
-            /*15*/       { c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36 },
-            /*16*/       { c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36 },
-            /*17*/       { c39, c39, c38, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39 } };
-
-    public States(AnalizadorLexico aLexico, SymbolTable tSymbol){
+    public States(AnalizadorLexico aLexico, SymbolTable tSymbol, SourceCode cFuente){
         this.aLexico = aLexico;
         this.tSymbol = tSymbol;
+        this.cFuente = cFuente;
+        this.inicAS();
+        this.createCeldas();
+        matrix = this.loadMatrix();
     }
-    public boolean isInFinalState(){return actualState == FINAL_STATE;}
-    public void changeEndFile(){
-        this.endFile = !this.endFile;
+    private void inicAS(){
+        this.AS1 = new InicBuffer();
+        this.AS2 = new AddChar();
+        this.AS3 = new GeneratorIdentifier(this.tSymbol,this.cFuente,this);
+        this.AS4 = new GeneratorFloat(this.tSymbol,this.cFuente,this);
+        this.AS6 = new GeneratorInteger(this.tSymbol,this.cFuente,this);
+        this.AS2bis = new AddCharBis();
+        this.AS13 = new ResetBuffer();
+        this.AS15 = new NewLine(this.cFuente);
+        this.AS20 = new Reparadora(this.cFuente);
+        this.AS21 = new MultilineCharacter(this.cFuente,this.tSymbol,this);
+        this.AS22 = new AddAndReturn(this,this.tSymbol);
+        this.AS99 = new GoToFinalState(this);
     }
-    public void goToLastState(){actualState = FINAL_STATE;}
+    private void createCeldas(){
 
-    public void reset(){actualState = 0;}
+        c1 = new Celda(1, AS1);
+        c2 = new Celda(2, AS1);
+        c3 = new Celda(0, AS15);
+        c4 = new Celda(-1,AS22);
+        c5 = new Celda(6, AS1);
+        c6 = new Celda(4, AS1);
+        c7 = new Celda(13, AS1);
+        c8 = new Celda(11, AS1);
+        c9 = new Celda(12, AS1);
+        c10 = new Celda(14, AS1);
+        c11 = new Celda(15, AS1);
+        c12 = new Celda(0, AS15);
+        c13 = new Celda(8, AS1);
+        c14 = new Celda(16, AS1);
+        c15 = new Celda(1, AS2);
+        c16 = new Celda(-1, AS3);
+        c40 = new Celda(-1, AS6);
+        c17 = new Celda(3, AS2);
+        c18 = new Celda(2, AS2);
+        c19 = new Celda(3, AS2);
+        c20 = new Celda(5, AS2bis);
+        c21 = new Celda(-1, AS4);
+        c23 = new Celda(17, AS2);
+        c24 = new Celda(-1, AS3);
+        c25 = new Celda(7, AS2);
+        c26 = new Celda(-1, AS13);
+        c27 = new Celda(7, AS2);
+        c28 = new Celda(8, AS2);
+        c29 = new Celda(9, AS2);
+        c30 = new Celda(-1, AS21);
+        c31 = new Celda(8, AS2);
+        c311 = new Celda(-1,AS21);
+        c32 = new Celda(9, AS2);
+        c33 = new Celda(10, AS15);
+        c34 = new Celda(-1, AS20);
+        c35 = new Celda(8, AS2);
+        c37 = new Celda(-1, AS22);
+        c36 = new Celda(-1, AS3);
+        c38 = new Celda(17, AS2);
+        c39 = new Celda(-1, AS4);
+        cFinal = new Celda(-2, AS99);
+
+    }
+    private Celda[][] loadMatrix() {
+        Celda[][] aux= {
+                /*0 */       {c1, c2, c1, c3, c1, c4, c4, c5, c4, c4, c4, c4, c6, c4, c7, c8, c9, c10, c11, c12, c12, c12, c13, c14, cFinal},
+                /*1 */       {c15, c15, c15, c16, c15, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16},
+                /*2 */       {c40, c18, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c17, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40, c40},
+                /*3 */       {c21, c18, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
+                /*4 */       {c21, c18, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
+                /*5 */       {c21, c21, c21, c21, c21, c23, c23, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21, c21},
+                /*6 */       {c24, c24, c24, c24, c24, c24, c24, c25, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24, c24},
+                /*7 */       {c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c26, c27, c27, c27},
+                /*8 */       {c28, c28, c28, c28, c28, c29, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c28, c30, c30, c28, c28},
+                /*9 */       {c31, c31, c31, c31, c31, c32, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c31, c33, c311, c31, c31},
+                /*10*/       {c34, c34, c34, c34, c34, c35, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34, c34},
+                /*11*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36},
+                /*12*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36},
+                /*13*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36},
+                /*14*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36},
+                /*15*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36},
+                /*16*/       {c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36, c37, c36, c36, c36, c36, c36, c36, c36, c36, c36, c36},
+                /*17*/       {c39, c39, c38, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39, c39}
+        };
+        return aux;
+
+    }
+
+    public boolean isInFinalState(){return actualState == FINAL_STATE;}
+
+
+    public void goToLastState(){
+        actualState = FINAL_STATE;
+        AS3.execute('$');
+
+    }
+
+    public void reset(){
+        actualState = 0;
+        AS13.execute('0');
+    }
 
     public void setTokenToLexic(int token, String lexema){
-        aLexico.setTokenGenerado(token, lexema);
+        aLexico.setTokenGenerado(token,lexema);
     }
 
     public int goToNextState(char c) {
@@ -126,16 +190,9 @@ public class States {
             column = 0;
         } else {
             switch (c) {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
+                case '0': case '1': case '2': case '3': case '4':
+                case '5': case '6': case '7': case '8':
+                case '9': //incluye 0,1,2,3,4,5,6,7,8
                     column = 1;
                     break;
 
@@ -232,15 +289,15 @@ public class States {
                     break;
             }
         }
+        System.out.println("Estados actuales: fil - col " + actualState +" "+ column);
+        System.out.println("Estoy leyendoe el caracter: " + c);
 
-        /*CAUNDO SE IMPLEMENTEN LAS AS, SE DESCOMENTA ESTO ASI SE EJECUTAN!!!
 
-        LA IDEA ES QUE LAS AS VAYAN COMPLETANDO EL BUFFER Y QUE CUANDO SE LLEGUE A ALGUNA AS QUE VA AL ESTADO FINAL, ESTA DEVUELVA EL BUFFER Y EL TIPO DE ALGUINA MANERA PARA PODER ALMACENARLO EN LA TABLA DE SIMBOLOS.
-
-        matrix[actualState][column].executeAS(buffer, c);
-        */
         matrix[actualState][column].executeAS(c);
-        return matrix[actualState][column].SiguienteEstado();
+        actualState = matrix[actualState][column].SiguienteEstado();
+
+        System.out.println("Siguiente estado:" + actualState );
+        return actualState;
 
     }
 

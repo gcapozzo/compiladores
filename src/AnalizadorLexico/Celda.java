@@ -8,10 +8,9 @@ public class Celda {
     private AccionSemantica as;
 
 
-    public Celda(int numero) {
+    public Celda(int numero, AccionSemantica as) {
         this.siguienteEstado = numero;
-        //AGREGARLE LA AS ACA!!!!
-        //this.as = as;
+        this.as = as;
     }
 
     public int SiguienteEstado() {
