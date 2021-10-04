@@ -1,9 +1,5 @@
 package AnalizadorLexico.acciones_semanticas;
-
 import AnalizadorLexico.States;
-import AnalizadorSintactico.Parser;
-import Utils.SourceCode;
-import Utils.SymbolTable;
 
 public class GoToFinalState extends AccionSemantica{
     private States matrix;

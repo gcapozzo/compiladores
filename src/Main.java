@@ -29,6 +29,7 @@ public class Main {
         for (String s: gen)
             System.out.println(s);
 
+
         //guardar lo generado en un archivo
         //guardar los errores en un archivo
         logs.printErrors();

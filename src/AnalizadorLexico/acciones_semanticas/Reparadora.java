@@ -1,6 +1,4 @@
 package AnalizadorLexico.acciones_semanticas;
-
-import AnalizadorLexico.States;
 import Utils.SourceCode;
 
 public class Reparadora extends AccionSemantica{

@@ -55,7 +55,6 @@ public class AnalizadorLexico {
     public void generated(String gen){
         String g = "Se ha generado la siguiente regla: " + gen + ". En la linea: " + cFuente.getCurrentLine();
         this.generado.add(g);
-        //System.err.println(g);
     }
 
     public ArrayList<String> getGenerado() {

@@ -1,7 +1,5 @@
 package AnalizadorLexico.acciones_semanticas;
-
 import AnalizadorLexico.States;
-import AnalizadorSintactico.Parser;
 import Utils.SourceCode;
 import Utils.SymbolTable;
 
@@ -24,18 +22,9 @@ public abstract class GeneratorNumbers extends AccionSemantica{
         stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),this.getCurrentBuffer());
 
     }
-    public abstract boolean isInRange(String sNumber);
     public abstract void addNewTokenByType();
 
-    public SymbolTable getTSymbol() {
-        return tSymbol;
-    }
-    public SourceCode getCFuente() {
-        return cFuente;
-    }
-    public States getStateMatrix() {
-        return stateMatrix;
-    }
+
 
 
 }
