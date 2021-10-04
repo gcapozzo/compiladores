@@ -4,7 +4,10 @@ import java.lang.Math;
 import java.io.*;
 import java.util.StringTokenizer;
 import AnalizadorLexico.AnalizadorLexico;
+import AnalizadorLexico.acciones_semanticas.GeneratorFloat;
+import AnalizadorLexico.acciones_semanticas.GeneratorInteger;
 import Utils.ErrorLog;
+
 %}
 
 /* YACC Declarations */
@@ -26,6 +29,7 @@ programa : nombre_programa bloque_declarativas bloque_ejecutables_programa {Syst
 
 nombre_programa : PROGRAM CONST_STR ';' { this.generated("nombre de programa"); }
                 | PROGRAM ID ';' { this.yyerror("El nombre del programa debe ser un STRING no un ID"); }
+                | PROGRAM CONST_STR {yyerror("Falta el ; al final del nombre del programa");}
 ;
 
 bloque_declarativas : sentencia_declarativa { this.generated("bloque declarativo"); }
@@ -34,12 +38,14 @@ bloque_declarativas : sentencia_declarativa { this.generated("bloque declarativo
 sentencia_declarativa : tipo lista_variables ';' { this.generated("sentencia declarativa"); }
                     | tipo FUNC ID '(' parametro ')' bloque_declarativas bloque_ejecutables_funcion ';' { this.generated("sentencia declarativa"); }
                     | TYPEDEF ID '=' encabezado_funcion ';' { this.generated("sentencia declarativa"); }
+                    | ID '=' encabezado_funcion ';'{yyerror("Falta la palabra reservada TYPEDEF");}
 ;
 
 tipo : INT | SINGLE | STRING | ID { this.generated("tipo de variable"); }
 ;
 
 encabezado_funcion : tipo FUNC '(' tipo ')' { this.generated("encabezado de funcion"); }
+                   | FUNC '(' tipo ')' {yyerror("Falta el tipo de la funcion");}
 ;
 
 lista_variables : ID { this.generated("lista de variables"); }
@@ -48,14 +54,18 @@ lista_variables : ID { this.generated("lista de variables"); }
 ;
 
 parametro : tipo ID { this.generated("parametro"); }
+          | parametro ',' tipo ID { this.yyerror("Una funcion no puede tener mas de un parametro"); } /* Para la deteccion de errores */ 
 ;
 
 bloque_ejecutables_programa : BEGIN sentencias_ejecutables END ';' { this.generated("bloque ejecutable"); } /* creo que el ; no van en los bloques de ejecutables*/
 			     | BEGIN END ';'
+                 | BEGIN END {yyerror("Falta el ; al final del END");}
 ;
 
 bloque_ejecutables_funcion : BEGIN sentencias_ejecutables retorno post_condicion END ';' /* creo que el ; no van en los bloques de ejecutables*/
                             | BEGIN sentencias_ejecutables retorno END ';' /* creo que el ; no van en los bloques de ejecutables*/
+                            | BEGIN sentencias_ejecutables retorno {yyerror("Falta el END");}
+                            | sentencias_ejecutables retorno END ';'{yyerror("Falta el BEGIN");}
 ;
 
 bloque_ejecutables_if: sentencia_ejecutable { this.generated("IF de una linea"); }
@@ -86,6 +96,7 @@ asignacion : ID ASIGN expresion_aritmetica { this.generated("asignacion"); }
 ;
 
 invocacion_funcion : ID '(' parametro ')' { this.generated("invocacion a funcion"); }
+                    | ID '(' ')' {yyerror("Falta el parametro de la funcion");}
 ;
 
 estructura_control : sentencia_if { this.generated("estructura de control"); }
@@ -97,15 +108,27 @@ sentencia_if : if_simple /* se podria sacar esto, cada uno solo tiene una defini
 ;
 
 if_simple : IF '(' condicion ')' THEN bloque_ejecutables_if ENDIF
+          | '(' condicion ')' THEN bloque_ejecutables_if ENDIF  {yyerror("Falta la palabra reservada IF");}
+          | IF '(' condicion ')' bloque_ejecutables_if ENDIF {yyerror("Falta la palabra reservada THEN");}
+          | IF '(' condicion ')' THEN bloque_ejecutables_if {yyerror("Falta la palabra reservada ENDIF");}
 ;
 
 if_completo : IF '(' condicion ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_if ENDIF
+            | '(' condicion ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_if ENDIF {yyerror("Falta la palabra reservada IF");}
+            | IF '(' condicion ')' bloque_ejecutables_if ELSE bloque_ejecutables_if ENDIF {yyerror("Falta la palabra reservada THEN");}
+            | IF '(' condicion ')' THEN bloque_ejecutables_if  bloque_ejecutables_if ENDIF {yyerror("Falta la palabra reservada ELSE");}
+            | IF '(' condicion ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_if  {yyerror("Falta la palabra reservada ENDIF");}
 ;
 
 sentencia_while : WHILE '(' condicion ')' DO bloque_ejecutables_while
+                | '(' condicion ')' DO bloque_ejecutables_while {yyerror("Falta la palabra reservada WHILE");}
+                | WHILE '(' condicion ')' bloque_ejecutables_while {yyerror("Falta la palabra reservada DO");}
 ;
 
 impresion_pantalla : PRINT '(' CONST_STR ')' { this.generated("impresion por pantalla"); print($3.sval); }
+                   | PRINT '(' ID ')' /* No sabemos como imprimir el valor de un ID que referencia un valor */
+                   | PRINT '(' CONST_INT ')' {print($3.ival);}
+                   | PRINT '(' CONST_SINGLE ')' {print($3.dval);}
 ;
 
 condicion : condicion OR expresion_booleana
@@ -213,7 +236,7 @@ factor : ID
     private void print(String text) {
         System.out.println(text);
     }
-
+    
     private void generated(String gen) {
         this.lexico.generated(gen);
     }
