@@ -39,6 +39,8 @@ sentencia_declarativa : tipo lista_variables ';' { this.generated("sentencia dec
                     | tipo FUNC ID '(' parametro ')' bloque_declarativas bloque_ejecutables_funcion ';' { this.generated("sentencia declarativa"); }
                     | TYPEDEF ID '=' encabezado_funcion ';' { this.generated("sentencia declarativa"); }
                     | ID '=' encabezado_funcion ';'{yyerror("Falta la palabra reservada TYPEDEF");}
+                    | tipo ';' {yyerror("Falta el ID");}
+
 ;
 
 tipo : INT | SINGLE | STRING | ID { this.generated("tipo de variable"); }

@@ -17,7 +17,7 @@ public class GeneratorFloat extends GeneratorNumbers {
         super(tSymbol, cFuente, matrix);
     }
 
-    @Override
+
     public boolean isInRange(String sNumber) {
         double fNumber = bufferToDouble(sNumber);
         //Por ahora como no entiende si es negativo o positivo, comparo solo con los positivos

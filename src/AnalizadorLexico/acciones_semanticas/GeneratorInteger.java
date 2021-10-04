@@ -13,7 +13,7 @@ public class GeneratorInteger extends GeneratorNumbers {
         super(tSymbol, cFuente, matrix);
     }
 
-    @Override
+
     public boolean isInRange(String sNumber) {
         int iNumber = bufferToInteger(sNumber);
         return ( iNumber <= MAX+1); //re chequear en la generacion de codigo

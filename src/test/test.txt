@@ -1,5 +1,5 @@
 PROGRAM %hola%;
-SINGLE i;
+INT ;
 BEGIN
 i := 0.1S-1;
 PRINT(%gian puto%);
