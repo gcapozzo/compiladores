@@ -1,11 +1,13 @@
 package Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ErrorLog {
     private SourceCode cFuente = null;
-    private ArrayList<String> errors = new ArrayList<String>();
-    private ArrayList<String> warnings = new ArrayList<String>();
+    private ArrayList<String> errors = new ArrayList<>();
+    private ArrayList<String> warnings = new ArrayList<>();
 
     public ErrorLog(){}
 
@@ -35,4 +37,11 @@ public class ErrorLog {
             }
     }
 
+    public List<String> getErrors() {
+        return Collections.unmodifiableList(errors);
+    }
+
+    public List<String> getWarnings() {
+        return Collections.unmodifiableList(warnings);
+    }
 }

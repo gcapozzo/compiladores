@@ -2,24 +2,35 @@ import AnalizadorLexico.*;
 import AnalizadorSintactico.*;
 import Utils.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Main {
 
     private static AnalizadorLexico lexico;
-    private static ReaderFromFile reader;
     private static SourceCode sourceCode;
     private static Parser parser = new Parser();
     private static SymbolTable symbolTable = new SymbolTable();
     private static ErrorLog logs;
 
     public static void main(String[] args) throws Exception {
-        run(args[0]);
+        if (!Files.isRegularFile(Path.of(args[0]))){
+            System.err.println("El primer argunmento no es un archivo");
+            System.exit(1);
+        }
+        if (!Files.isDirectory(Path.of(args[1]))){
+            System.err.println("El segundo argumento no es un directorio");
+            System.exit(1);
+        }
+        run(args[0], args[1]);
     }
 
-    private static void run(String path) throws Exception {
+    private static void run(String path, String folderToSave) throws Exception {
         logs = new ErrorLog();
-        ArrayList<Character> code = reader.reader(path);
+        ArrayList<Character> code = FileManager.reader(path);
         sourceCode = new SourceCode(code,logs);
         logs.setSourceCode(sourceCode);
         lexico = new AnalizadorLexico(sourceCode,symbolTable);
@@ -28,10 +39,10 @@ public class Main {
         ArrayList<String> gen = lexico.getGenerado();
         for (String s: gen)
             System.out.println(s);
-
-
-        //guardar lo generado en un archivo
-        //guardar los errores en un archivo
+        String errorsPath = folderToSave + File.pathSeparator + "error.txt";
+        String warningsPath = folderToSave + File.pathSeparator + "warnings.txt";
+        FileManager.saveStringListToFile(logs.getErrors(),errorsPath);
+        FileManager.saveStringListToFile(logs.getWarnings(),warningsPath);
         logs.printErrors();
         logs.printWarning();
     }
