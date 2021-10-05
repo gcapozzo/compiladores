@@ -27,6 +27,8 @@ public class AnalizadorLexico {
     public void setTokenGenerado(int token, String lexema){
         this.tokenObtenido = token;
         this.lexemaObtenido = lexema;
+        System.out.println(token);
+        System.out.println(lexema);
     }
 
     public int generateToken(){

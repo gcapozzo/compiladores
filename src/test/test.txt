@@ -1,5 +1,5 @@
 PROGRAM %hola%;
-INT ;
+TYPEDEF id =  FUNC(SINGLE);
 BEGIN
 i := 0.1S-1;
 PRINT(%gian puto%);

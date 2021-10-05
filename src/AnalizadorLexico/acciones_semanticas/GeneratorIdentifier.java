@@ -20,13 +20,28 @@ public class GeneratorIdentifier extends AccionSemantica{
     @Override
     public void execute(char c) {
         cFuente.decreaseIndex();
-        if(truncString(LIMITE_STRING)){
-            cFuente.addWarning("Se ha truncado el identificador porque supera los " + LIMITE_STRING + " caracteres" );
+        switch(this.getCurrentBuffer().toString()) {
+            case "=":
+                stateMatrix.setTokenToLexic((int)(this.getCurrentBuffer().charAt(0)),this.getCurrentBuffer());
+                break;
+            case "&":
+                cFuente.addWarning("No se puede leer el simbolo & por si solo");
+                break;
+            case "|":
+                cFuente.addWarning("No se puede leer el simbolo | por si solo");
+                break;
+            default: {
+                if(truncString(LIMITE_STRING)){
+                    cFuente.addWarning("Se ha truncado el identificador porque supera los " + LIMITE_STRING + " caracteres" );
+                }
+
+                if(!tSymbol.isInTable(this.getCurrentBuffer())){
+                    tSymbol.addToken(this.getCurrentBuffer(), Parser.ID);
+                }
+                stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),this.getCurrentBuffer());
+            }
         }
 
-        if(!tSymbol.isInTable(this.getCurrentBuffer())){
-            tSymbol.addToken(this.getCurrentBuffer(), Parser.ID);
-        }
-        stateMatrix.setTokenToLexic(tSymbol.getTokenID(this.getCurrentBuffer()),this.getCurrentBuffer());
+
     }
 }
