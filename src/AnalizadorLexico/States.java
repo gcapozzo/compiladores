@@ -1,7 +1,8 @@
 package AnalizadorLexico;
 
-import Utils.*;
+import AnalizadorLexico.acciones_semanticas.AccionSemantica;
 import AnalizadorLexico.acciones_semanticas.*;
+import Utils.*;
 
 public class States {
     /*
@@ -17,18 +18,20 @@ public class States {
     private SourceCode cFuente;
 
     //Creacion de las AS
-    private AccionSemantica AS1;
-    private AccionSemantica AS2;
-    private AccionSemantica AS3;
-    private AccionSemantica AS4;
-    private AccionSemantica AS6;
-    private AccionSemantica AS2bis;
-    private AccionSemantica AS13;
-    private AccionSemantica AS15;
-    private AccionSemantica AS20;
-    private AccionSemantica AS21;
-    private AccionSemantica AS22;
-    private AccionSemantica AS99;
+    private AccionSemantica asGeneral = new AccionSemantica(this, cFuente, tSymbol);
+    private AccionSemantica.InicBuffer AS1 = asGeneral.new InicBuffer();
+    private AccionSemantica.AddChar AS2 = asGeneral.new AddChar();
+    private AccionSemantica.GeneratorIdentifier AS3 = asGeneral.new GeneratorIdentifier();
+    private AccionSemantica.GeneratorFloat AS4 = asGeneral.new GeneratorFloat();
+    private AccionSemantica.GeneratorInteger AS6 = asGeneral.new GeneratorInteger();
+    private AccionSemantica.AddCharBis AS2bis = asGeneral.new AddCharBis();
+    private AccionSemantica.ResetBuffer AS13 = asGeneral.new ResetBuffer();
+    private AccionSemantica.NewLine AS15 = asGeneral.new NewLine();
+    private AccionSemantica.Reparadora AS20 = asGeneral.new Reparadora();
+    private AccionSemantica.MultilineCharacter AS21 = asGeneral.new MultilineCharacter();
+    private AccionSemantica.AddAndReturn AS22 =  asGeneral.new AddAndReturn();
+    private AccionSemantica.TranslateToASCII AS33 = asGeneral.new TranslateToASCII();
+    private AccionSemantica.GoToFinalState AS99 =  asGeneral.new GoToFinalState();
 
     //CREACION DE CELDAS PARA LA MATRIZ
     private Celda c1, c2, c3;
@@ -71,24 +74,10 @@ public class States {
         this.aLexico = aLexico;
         this.tSymbol = tSymbol;
         this.cFuente = cFuente;
-        this.inicAS();
         this.createCeldas();
         matrix = this.loadMatrix();
     }
-    private void inicAS(){
-        this.AS1 = new InicBuffer();
-        this.AS2 = new AddChar();
-        this.AS3 = new GeneratorIdentifier(this.tSymbol,this.cFuente,this);
-        this.AS4 = new GeneratorFloat(this.tSymbol,this.cFuente,this);
-        this.AS6 = new GeneratorInteger(this.tSymbol,this.cFuente,this);
-        this.AS2bis = new AddCharBis();
-        this.AS13 = new ResetBuffer();
-        this.AS15 = new NewLine(this.cFuente);
-        this.AS20 = new Reparadora(this.cFuente);
-        this.AS21 = new MultilineCharacter(this.cFuente,this.tSymbol,this);
-        this.AS22 = new AddAndReturn(this,this.tSymbol);
-        this.AS99 = new GoToFinalState(this);
-    }
+
     private void createCeldas(){
 
         c1 = new Celda(1, AS1);
@@ -162,7 +151,7 @@ public class States {
 
     public void reset(){
         actualState = 0;
-        AS13.execute(' ');
+        //AS13.execute(' ');
     }
 
     public void setTokenToLexic(int token, String lexema){
