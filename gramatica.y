@@ -36,6 +36,10 @@ bloque_declarativas : sentencia_declarativa { this.generated("bloque declarativo
                     | bloque_declarativas sentencia_declarativa { this.generated("bloque declarativo"); }
 
 sentencia_declarativa : tipo lista_variables ';' { this.generated("sentencia declarativa"); }
+                    /*
+                    | tipo lista_variables { yyerror("Falta el ; al final de la sentencia declarativa"); }
+                    si hago eso me genera un conflico de shift reduce. como hago para poder evitarlo???
+                    */
                     | tipo FUNC ID '(' parametro ')' bloque_declarativas bloque_ejecutables_funcion ';' { this.generated("sentencia declarativa"); }
                     | TYPEDEF ID '=' encabezado_funcion ';' { this.generated("sentencia declarativa"); }
                     | ID '=' encabezado_funcion ';'{yyerror("Falta la palabra reservada TYPEDEF");}

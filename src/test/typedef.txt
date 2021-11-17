@@ -1,0 +1,16 @@
+PROGRAM %programa de typedef%;
+
+TYPEDEF tipoEntero = INT FUNC(INT);
+
+tipoEntero x, y, z;
+INT a, b, c;
+
+
+BEGIN
+
+    b := 12;
+
+    x := funcion;
+    PRINT(%HOLA%);
+
+END;

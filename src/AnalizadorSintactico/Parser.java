@@ -18,12 +18,8 @@
 
 //#line 2 "gramatica.y"
 package AnalizadorSintactico;
-import java.lang.Math;
-import java.io.*;
-import java.util.StringTokenizer;
 import AnalizadorLexico.AnalizadorLexico;
-import AnalizadorLexico.acciones_semanticas.GeneratorFloat;
-import AnalizadorLexico.acciones_semanticas.GeneratorInteger;
+import AnalizadorLexico.acciones_semanticas.AccionSemantica;
 import Utils.ErrorLog;
 
 //#line 27 "Parser.java"
@@ -609,11 +605,11 @@ final static String yyrule[] = {
 
 
     private void checkNegative(double number){
-        if( !(number >= GeneratorFloat.MIN_NEGATIVE && number <= GeneratorFloat.MAX_NEGATIVE) )
+        if( !(number >= AccionSemantica.GeneratorFloat.MIN_NEGATIVE && number <= AccionSemantica.GeneratorFloat.MAX_NEGATIVE) )
             yyerror("Single fuera de rango negativo");
     }
     private void checkPositiv(double number){
-        if( !( (number >= GeneratorFloat.MIN_POSITIV && number <= GeneratorFloat.MAX_POSITIV) || number == GeneratorFloat.CERO) )
+        if( !( (number >= AccionSemantica.GeneratorFloat.MIN_POSITIV && number <= AccionSemantica.GeneratorFloat.MAX_POSITIV) || number == AccionSemantica.GeneratorFloat.CERO) )
             yyerror("Single fuera de rango positivo");
     }
     private void isInRange(String number, boolean negative){
@@ -628,7 +624,7 @@ final static String yyrule[] = {
 	    }
         else{
            int numberi = Integer.parseInt(number);
-           if( !(numberi >= GeneratorInteger.MIN && numberi <= GeneratorInteger.MAX) )
+           if( !(numberi >= AccionSemantica.GeneratorInteger.MIN && numberi <= AccionSemantica.GeneratorInteger.MAX) )
             yyerror("Entero fuera de rango");
             }
     }
