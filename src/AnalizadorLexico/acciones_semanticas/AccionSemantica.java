@@ -202,7 +202,6 @@ public class AccionSemantica{
             inicString();
         }
     }
-
     public class TranslateToASCII extends AccionSemantica{
 
         public TranslateToASCII() {
