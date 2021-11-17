@@ -17,21 +17,20 @@ public class States {
     private SymbolTable tSymbol;
     private SourceCode cFuente;
 
-    //Creacion de las AS
-    private AccionSemantica asGeneral = new AccionSemantica(this, cFuente, tSymbol);
-    private AccionSemantica.InicBuffer AS1 = asGeneral.new InicBuffer();
-    private AccionSemantica.AddChar AS2 = asGeneral.new AddChar();
-    private AccionSemantica.GeneratorIdentifier AS3 = asGeneral.new GeneratorIdentifier();
-    private AccionSemantica.GeneratorFloat AS4 = asGeneral.new GeneratorFloat();
-    private AccionSemantica.GeneratorInteger AS6 = asGeneral.new GeneratorInteger();
-    private AccionSemantica.AddCharBis AS2bis = asGeneral.new AddCharBis();
-    private AccionSemantica.ResetBuffer AS13 = asGeneral.new ResetBuffer();
-    private AccionSemantica.NewLine AS15 = asGeneral.new NewLine();
-    private AccionSemantica.Reparadora AS20 = asGeneral.new Reparadora();
-    private AccionSemantica.MultilineCharacter AS21 = asGeneral.new MultilineCharacter();
-    private AccionSemantica.AddAndReturn AS22 =  asGeneral.new AddAndReturn();
-    private AccionSemantica.TranslateToASCII AS33 = asGeneral.new TranslateToASCII();
-    private AccionSemantica.GoToFinalState AS99 =  asGeneral.new GoToFinalState();
+    private AccionSemantica asGeneral = null;
+    private AccionSemantica.InicBuffer AS1 = null;
+    private AccionSemantica.AddChar AS2 = null;
+    private AccionSemantica.GeneratorIdentifier AS3 = null;
+    private AccionSemantica.GeneratorFloat AS4 = null;
+    private AccionSemantica.GeneratorInteger AS6 = null;
+    private AccionSemantica.AddCharBis AS2bis = null;
+    private AccionSemantica.ResetBuffer AS13 = null;
+    private AccionSemantica.NewLine AS15 = null;
+    private AccionSemantica.Reparadora AS20 = null;
+    private AccionSemantica.MultilineCharacter AS21 = null;
+    private AccionSemantica.AddAndReturn AS22 =  null;
+    private AccionSemantica.TranslateToASCII AS33 = null;
+    private AccionSemantica.GoToFinalState AS99 =  null;
 
     //CREACION DE CELDAS PARA LA MATRIZ
     private Celda c1, c2, c3;
@@ -74,8 +73,27 @@ public class States {
         this.aLexico = aLexico;
         this.tSymbol = tSymbol;
         this.cFuente = cFuente;
+        this.createAS();
         this.createCeldas();
         matrix = this.loadMatrix();
+    }
+
+    private void createAS(){
+        //Creacion de las AS
+        this.asGeneral = new AccionSemantica(this, this.cFuente, this.tSymbol);
+        this.AS1 = asGeneral.new InicBuffer();
+        this.AS2 = asGeneral.new AddChar();
+        this.AS3 = asGeneral.new GeneratorIdentifier();
+        this.AS4 = asGeneral.new GeneratorFloat();
+        this.AS6 = asGeneral.new GeneratorInteger();
+        this.AS2bis = asGeneral.new AddCharBis();
+        this.AS13 = asGeneral.new ResetBuffer();
+        this.AS15 = asGeneral.new NewLine();
+        this.AS20 = asGeneral.new Reparadora();
+        this.AS21 = asGeneral.new MultilineCharacter();
+        this.AS22 =  asGeneral.new AddAndReturn();
+        this.AS33 = asGeneral.new TranslateToASCII();
+        this.AS99 =  asGeneral.new GoToFinalState();
     }
 
     private void createCeldas(){
