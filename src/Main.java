@@ -2,7 +2,6 @@ import AnalizadorLexico.*;
 import AnalizadorSintactico.*;
 import Utils.*;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -17,17 +16,13 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         if (!Files.isRegularFile(Paths.get(args[0]))){
-            System.err.println("El primer argunmento no es un archivo");
+            System.err.println("El argumento debe ser el archivo de prueba.");
             System.exit(1);
         }
-        if (!Files.isDirectory(Paths.get(args[1]))){
-            System.err.println("El segundo argumento no es un directorio");
-            System.exit(1);
-        }
-        run(args[0], args[1]);
+        run(args[0]);
     }
 
-    private static void run(String path, String folderToSave) throws Exception {
+    private static void run(String path) throws Exception {
         logs = new ErrorLog();
         ArrayList<Character> code = FileManager.reader(path);
         sourceCode = new SourceCode(code,logs);
@@ -38,8 +33,8 @@ public class Main {
         ArrayList<String> gen = lexico.getGenerado();
         for (String s: gen)
             System.out.println(s);
-        String errorsPath = folderToSave + File.pathSeparator + "error.txt";
-        String warningsPath = folderToSave + File.pathSeparator + "warnings.txt";
+        String errorsPath = FileManager.TEST_FILE_PATH + FileManager.TEST_FILE_NAME + "error.txt";
+        String warningsPath = FileManager.TEST_FILE_PATH + FileManager.TEST_FILE_NAME + "warnings.txt";
         FileManager.saveStringListToFile(logs.getErrors(),errorsPath);
         FileManager.saveStringListToFile(logs.getWarnings(),warningsPath);
         logs.printErrors();
