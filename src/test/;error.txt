@@ -1,1 +1,0 @@
-ERROR -> Line 2: Falta el tipo de la funcion
