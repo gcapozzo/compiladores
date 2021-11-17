@@ -3,9 +3,8 @@ import AnalizadorSintactico.*;
 import Utils.*;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Main {
@@ -17,11 +16,11 @@ public class Main {
     private static ErrorLog logs;
 
     public static void main(String[] args) throws Exception {
-        if (!Files.isRegularFile(Path.of(args[0]))){
+        if (!Files.isRegularFile(Paths.get(args[0]))){
             System.err.println("El primer argunmento no es un archivo");
             System.exit(1);
         }
-        if (!Files.isDirectory(Path.of(args[1]))){
+        if (!Files.isDirectory(Paths.get(args[1]))){
             System.err.println("El segundo argumento no es un directorio");
             System.exit(1);
         }
