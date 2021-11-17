@@ -8,15 +8,15 @@ import java.util.ArrayList;
 public class AnalizadorLexico {
 
 
-    private final SourceCode cFuente;
-    private final States stateMatrix;
-    private int tokenObtenido;
-    private String lexemaObtenido;
-    private SymbolTable tSymbol;
-    private ArrayList<String> generado = new ArrayList<>();
+    protected final SourceCode cFuente;
+    protected final States stateMatrix;
+    protected int tokenObtenido;
+    protected String lexemaObtenido;
+    protected SymbolTable tSymbol;
+    protected ArrayList<String> generado = new ArrayList<>();
 
 
-    public AnalizadorLexico(SourceCode cfuente,SymbolTable tSymbol){
+    public AnalizadorLexico(SourceCode cfuente, SymbolTable tSymbol){
         this.cFuente = cfuente;
         this.tSymbol = tSymbol;
         this.stateMatrix = new States(this, this.tSymbol, this.cFuente);

@@ -32,6 +32,7 @@ public class Main {
         ArrayList<Character> code = FileManager.reader(path);
         sourceCode = new SourceCode(code,logs);
         logs.setSourceCode(sourceCode);
+        symbolTable = new SymbolTable();
         lexico = new AnalizadorLexico(sourceCode,symbolTable);
         parser = new Parser(lexico, logs);
         parser.run();
