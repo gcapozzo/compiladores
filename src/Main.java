@@ -2,6 +2,7 @@ import AnalizadorLexico.*;
 import AnalizadorSintactico.*;
 import Utils.*;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Main {
             System.err.println("El argumento debe ser el archivo de prueba.");
             System.exit(1);
         }
+        System.out.println();
         run(args[0]);
     }
 
@@ -34,8 +36,8 @@ public class Main {
         ArrayList<String> gen = lexico.getGenerado();
         for (String s: gen)
             System.out.println(s);
-        String errorsPath = FileManager.TEST_FILE_PATH + FileManager.TEST_FILE_NAME + "error.txt";
-        String warningsPath = FileManager.TEST_FILE_PATH + FileManager.TEST_FILE_NAME + "warnings.txt";
+        String errorsPath = FileManager.TEST_FILE_PATH + File.separator + FileManager.TEST_FILE_NAME + "-error.txt";
+        String warningsPath = FileManager.TEST_FILE_PATH + File.separator + FileManager.TEST_FILE_NAME + "-warnings.txt";
         FileManager.saveStringListToFile(logs.getErrors(),errorsPath);
         FileManager.saveStringListToFile(logs.getWarnings(),warningsPath);
         logs.printErrors();
